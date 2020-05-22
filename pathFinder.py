@@ -215,7 +215,7 @@ def draw_menu(display):
 def draw_run_buttion(display):
     boldness = 3
 
-    startPosX = winWidth / 4
+    startPosX = int(winWidth / 4)
     startPosY = int(round(winHeight - menuHeight + boldness / 2, 0))
     pygame.draw.rect(display, white, (startPosX,
                                       startPosY, int(winWidth / 2), menuHeight), 0)
@@ -246,10 +246,10 @@ def change_button_color_onclick(display, section, color=grey):
         pygame.display.update()
 
     elif section == "FINISH":
-        endPosX = winWidth / 2
+        endPosX = int(winWidth / 2)
         endPosY = int(round(winHeight - menuHeight + boldness / 2, 0))
         pygame.draw.rect(display, color, (endPosX,
-                                          endPosY, winWidth / 2, menuHeight), 0)
+                                          endPosY, int(winWidth / 2), menuHeight), 0)
         display_text(display, "MARK FINISH", red, x=winWidth /
                      4 + winWidth / 2, y=boardHeight + menuHeight / 2)
         pygame.display.update()
@@ -263,10 +263,10 @@ def change_button_color_onclick(display, section, color=grey):
         pygame.display.update()
 
     elif section == "FIND":
-        PosX = winWidth / 4
+        PosX = int(winWidth / 4)
         PosY = int(round(winHeight - menuHeight + boldness / 2, 0))
         pygame.draw.rect(display, color, (PosX,
-                                          PosY, winWidth / 2, menuHeight), 0)
+                                          PosY, int(winWidth / 2), menuHeight), 0)
         display_text(display, "FIND PATH", green, x=int(winWidth /
                                                         2), y=int(round(boardHeight + menuHeight / 2, 0)))
         pygame.display.update()
@@ -274,7 +274,7 @@ def change_button_color_onclick(display, section, color=grey):
         pygame.draw.rect(display, white, (PosX,
                                           PosY, int(winWidth / 2), menuHeight), 0)
         pygame.draw.rect(display, green, (PosX,
-                                          PosY, winWidth / 2, menuHeight), boldness)
+                                          PosY, int(winWidth / 2), menuHeight), boldness)
         display_text(display, "FIND PATH", green, x=int(winWidth /
                                                         2), y=int(round(boardHeight + menuHeight / 2, 0)))
         pygame.display.update()
@@ -284,15 +284,15 @@ def hide_menu(display, section):
     boldness = 3
     if section == "START":
         startPosX = 0
-        startPosY = round(winHeight - menuHeight + boldness / 2, 0)
+        startPosY = int(round(winHeight - menuHeight + boldness / 2, 0))
         pygame.draw.rect(display, white, (startPosX,
-                                          startPosY, winWidth / 2, menuHeight), 0)
+                                          startPosY, int(winWidth / 2), menuHeight), 0)
 
     elif section == "FINISH":
-        endPosX = winWidth / 2
-        endPosY = round(winHeight - menuHeight + boldness / 2)
+        endPosX = int(winWidth / 2)
+        endPosY = int(round(winHeight - menuHeight + boldness / 2))
         pygame.draw.rect(display, white, (endPosX,
-                                          endPosY, winWidth / 2, menuHeight), 0)
+                                          endPosY, int(winWidth / 2), menuHeight), 0)
 
 
 def display_text(display, string, color, x, y):
