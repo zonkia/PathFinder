@@ -7,7 +7,7 @@ from math import sqrt, inf, fabs
 
 
 squareSize = 20
-amountOfSquares = 25
+amountOfSquares = 40
 menuHeight = 100
 
 boardWidth = squareSize * amountOfSquares
@@ -108,16 +108,12 @@ def calculate_cost_of_travel(baseVertex, neighborVertex, namedGraph):
 
     if baseVertexMatrixYX == neighborVertexMatrixYX:
         return 0
-
     elif baseVertexY == neighborVertexY and fabs(baseVertexX - neighborVertexX) == 1:
         return 1
-
     elif baseVertexX == neighborVertexX and fabs(baseVertexY - neighborVertexY) == 1:
         return 1
-
     elif fabs(baseVertexX - neighborVertexX) == 1 and fabs(baseVertexY - neighborVertexY) == 1:
         return round(sqrt(2), 3)
-
     else:
         return 0
 
@@ -222,7 +218,7 @@ def get_zero_number_from_board_coordinates(namedGraph, start):
 
 
 class Dijkstra:
-    def __init__(self, start, graph, display, startSquare, endSquare):
+    def __init__(self, start, finish, graph, display, startSquare, endSquare):
         """calculate dijkstra algorithm
         Arguments:
             start {[list]} -- [y, x]
@@ -236,6 +232,8 @@ class Dijkstra:
 
         self.startingNumber = get_zero_number_from_board_coordinates(
             self.namedGraph, start)
+        finishVertex = get_zero_number_from_board_coordinates(
+            self.namedGraph, finish)
 
         DU[self.startingNumber] = 0
 
@@ -243,7 +241,7 @@ class Dijkstra:
               for number in Q
               }
 
-        while len(Q) > 0:
+        while finishVertex not in S:
 
             cheapsestVertexes = get_smallest_DU(DU, S)
 
@@ -288,14 +286,17 @@ class Dijkstra:
             stepBackNumber = self.PU[finishNumberName]
 
             if stepBackNumber == -1:
-                return
+                return list(reversed(list(tuple(path))))
 
             stepBackNumberCoordinates = get_vertex_position(
                 self.namedGraph, stepBackNumber)
+
             Dijkstra.get_route(self, stepBackNumberCoordinates, path)
+
             return list(reversed(list(tuple(path))))
 
     def get_route_YX_coordinates(self, path):
+
         coordinatesPath = []
         for numberName in path:
             for y in range(len(self.namedGraph)):
@@ -309,7 +310,8 @@ class Path:
 
     def __init__(self, graph, display, startSquare, endSquare, start, finish):
         path = []
-        dijkstra = Dijkstra(start, graph, display, startSquare, endSquare)
+        dijkstra = Dijkstra(start, finish, graph, display,
+                            startSquare, endSquare)
         shortestPath = dijkstra.get_route(finish, path)
         self.pathCoordinates = dijkstra.get_route_YX_coordinates(shortestPath)
 
@@ -427,50 +429,42 @@ def main(board):
                     pygame.display.update()
                     boardOnlyObstacles = get_board_with_only_obstacles(board)
 
-                    try:
-                        path = Path(boardOnlyObstacles, display, start, end, start=startCoordinates,
-                                    finish=endCoordinates).pathCoordinates
-                    except:
-                        draw_error(display)
-                        pygame.display.update()
-                        time.sleep(5)
+                    path = Path(boardOnlyObstacles, display, start, end, start=startCoordinates,
+                                finish=endCoordinates).pathCoordinates
+                    display.fill(white)
+                    draw_grid(display)
+                    draw_clicked_box(
+                        mouseXstart, mouseYstart, display, color=green)
+                    draw_clicked_box(
+                        mouseXend, mouseYend, display, color=red)
 
-                        return
-                    else:
-                        display.fill(white)
-                        draw_grid(display)
-                        draw_clicked_box(
-                            mouseXstart, mouseYstart, display, color=green)
-                        draw_clicked_box(
-                            mouseXend, mouseYend, display, color=red)
+                    obstacles = get_obstacles_pycoordinates(board)
+                    draw_square(
+                        start[0], start[1], display, color=green)
+                    draw_square(
+                        end[0], end[1], display, color=red)
 
-                        obstacles = get_obstacles_pycoordinates(board)
-                        draw_square(
-                            start[0], start[1], display, color=green)
-                        draw_square(
-                            end[0], end[1], display, color=red)
+                    for obstacle in obstacles:
+                        XY = get_board_coordinates_from_boardYX(obstacle)
+                        draw_square(XY[0], XY[1], display, color=black)
 
-                        for obstacle in obstacles:
-                            XY = get_board_coordinates_from_boardYX(obstacle)
-                            draw_square(XY[0], XY[1], display, color=black)
+                    pygame.display.update()
 
-                        pygame.display.update()
+                    for step in path:
+                        XY = get_board_coordinates_from_boardYX(step)
 
-                        for step in path:
-                            XY = get_board_coordinates_from_boardYX(step)
+                        if step == startCoordinates or step == endCoordinates:
+                            continue
 
-                            if step == startCoordinates or step == endCoordinates:
-                                continue
+                        elif step != startCoordinates and step != endCoordinates:
+                            draw_clicked_box(
+                                XY[0], XY[1], display, color=gold)
+                            draw_grid(display)
+                            pygame.display.update()
+                            time.sleep(0.1)
 
-                            elif step != startCoordinates and step != endCoordinates:
-                                draw_clicked_box(
-                                    XY[0], XY[1], display, color=gold)
-                                draw_grid(display)
-                                pygame.display.update()
-                                time.sleep(0.1)
-
-                        draw_middle_buttion(display, string="RESET")
-                        pygame.display.update()
+                    draw_middle_buttion(display, string="RESET")
+                    pygame.display.update()
 
                 else:
                     clickedSquare = draw_clicked_box(mouseX, mouseY, display)
