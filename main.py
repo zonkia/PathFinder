@@ -431,6 +431,13 @@ def main(board):
 
                     path = Path(boardOnlyObstacles, display, start, end, start=startCoordinates,
                                 finish=endCoordinates).pathCoordinates
+
+                    if path == [endCoordinates]:
+                        draw_error(display)
+                        pygame.display.update()
+                        time.sleep(3)
+                        return
+
                     display.fill(white)
                     draw_grid(display)
                     draw_clicked_box(
