@@ -97,7 +97,7 @@ def get_column(board, y):
     return column
 
 
-def celculate_cost_of_travel(baseVertex, neighborVertex, namedGraph):
+def calculate_cost_of_travel(baseVertex, neighborVertex, namedGraph):
     baseVertexMatrixYX = get_vertex_position(namedGraph, baseVertex)
     baseVertexX = baseVertexMatrixYX[0]
     baseVertexY = baseVertexMatrixYX[1]
@@ -154,7 +154,7 @@ def get_smallest_DU(DU, S):
 
 
 def get_neighbors(namedGraph, vertex):
-    neighbourNames = []
+    neighborNames = []
     vertexPosition = get_vertex_position(namedGraph, vertex)
     y = vertexPosition[0]
     x = vertexPosition[1]
@@ -162,59 +162,59 @@ def get_neighbors(namedGraph, vertex):
         if y - 1 < 0 or namedGraph[y - 1][x] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y - 1][x])
+            neighborNames.append(namedGraph[y - 1][x])
     except:
         pass
     try:
         if y - 1 < 0 or namedGraph[y - 1][x + 1] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y - 1][x + 1])
+            neighborNames.append(namedGraph[y - 1][x + 1])
     except:
         pass
     try:
         if namedGraph[y][x + 1] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y][x + 1])
+            neighborNames.append(namedGraph[y][x + 1])
     except:
         pass
     try:
         if namedGraph[y + 1][x + 1] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y + 1][x + 1])
+            neighborNames.append(namedGraph[y + 1][x + 1])
     except:
         pass
     try:
         if namedGraph[y + 1][x] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y + 1][x])
+            neighborNames.append(namedGraph[y + 1][x])
     except:
         pass
     try:
         if x - 1 < 0 or namedGraph[y + 1][x - 1] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y + 1][x - 1])
+            neighborNames.append(namedGraph[y + 1][x - 1])
     except:
         pass
     try:
         if x - 1 < 0 or namedGraph[y][x - 1] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y][x - 1])
+            neighborNames.append(namedGraph[y][x - 1])
     except:
         pass
     try:
         if y - 1 < 0 or x - 1 < 0 or namedGraph[y - 1][x - 1] == 0:
             pass
         else:
-            neighbourNames.append(namedGraph[y - 1][x - 1])
+            neighborNames.append(namedGraph[y - 1][x - 1])
     except:
         pass
-    return list(set(neighbourNames))
+    return list(set(neighborNames))
 
 
 def get_zero_number_from_board_coordinates(namedGraph, start):
@@ -268,7 +268,7 @@ class Dijkstra:
                     draw_grid(display)
                     pygame.display.update()
 
-                    costOfTravel = celculate_cost_of_travel(
+                    costOfTravel = calculate_cost_of_travel(
                         vertex, neighborVertex, self.namedGraph)
 
                     if DU[neighborVertex] > DU[vertex] + costOfTravel:
@@ -326,10 +326,8 @@ def main(board):
 
     pygame.display.set_caption('Path finder')
 
-    mouseClicked = False
     mouseX = 0
     mouseY = 0
-    pressed = ""
     path = 0
 
     global font, fontSize
