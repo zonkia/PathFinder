@@ -7,7 +7,7 @@ from math import sqrt, inf, fabs
 
 
 squareSize = 20
-amountOfSquares = 40
+amountOfSquares = 25
 menuHeight = 100
 
 boardWidth = squareSize * amountOfSquares
