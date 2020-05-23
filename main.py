@@ -97,38 +97,6 @@ def get_column(board, y):
     return column
 
 
-"""NOT USED - VERY SLOW
-
-def create_graph_with_weights(graph, namedGraph):
-    i = 0
-    for row in graph:
-        i += len(row)
-
-    graphWithWeights = []
-    row = []
-
-    for y in range(i):
-        for x in range(i):
-            vertexPosX = get_vertex_position(namedGraph, x + 1)
-            vertexPosY = get_vertex_position(namedGraph, y + 1)
-            if vertexPosX == None or vertexPosY == None:
-                continue
-            if x == y:
-                row.append(0)
-            elif vertexPosX[0] == vertexPosY[0] and fabs(vertexPosX[1] - vertexPosY[1]) == 1:
-                row.append(1)
-            elif vertexPosX[1] == vertexPosY[1] and fabs(vertexPosX[0] - vertexPosY[0]) == 1:
-                row.append(1)
-            elif fabs(vertexPosX[0] - vertexPosY[0]) == 1 and fabs(vertexPosX[1] - vertexPosY[1]) == 1:
-                row.append(round(sqrt(2), 3))
-            else:
-                row.append(0)
-        graphWithWeights.append(row)
-        row = []
-    return graphWithWeights
-"""
-
-
 def celculate_cost_of_travel(baseVertex, neighborVertex, namedGraph):
     baseVertexMatrixYX = get_vertex_position(namedGraph, baseVertex)
     baseVertexX = baseVertexMatrixYX[0]
